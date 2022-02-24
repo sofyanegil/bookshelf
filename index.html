@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bookshelf Apps</title>
+    <link rel="stylesheet" href="assets/style/style.css" />
+
+    <link rel="shortcut icon" href="assets/img/logo.png" type="image/x-icon" />
+  </head>
+  <body>
+    <div id="toast"></div>
+    <header>
+      <img src="assets/img/logo.png" alt="" width="40" />
+      <h1 class="head-title">Bookshelf Apps</h1>
+    </header>
+
+    <main>
+      <section class="toolbar">
+        <div class="search">
+          <input type="text" placeholder="Search Book.." id="search" />
+          <button class="btn btn-primary" id="searchBtn">Cari</button>
+        </div>
+        <button class="btn btn-primary" type="button " id="addBtn">&plus; Tambah Buku</button>
+      </section>
+
+      <section class="modal hide">
+        <section class="input-section card">
+          <span class="close">&times;</span>
+          <h2>Tambah Buku Baru</h2>
+          <form id="inputBook">
+            <div class="input">
+              <label for="inputBookTitle">Judul : </label>
+              <input id="inputBookTitle" type="text" required autofocus placeholder="Ketik Judul Buku.." />
+            </div>
+            <div class="input">
+              <label for="inputBookAuthor">Penulis : </label>
+              <input id="inputBookAuthor" type="text" required placeholder="Ketik Penulis Buku.." />
+            </div>
+            <div class="input">
+              <label for="inputBookYear">Tahun : </label>
+              <input id="inputBookYear" type="number" required min="1700" max="2022" placeholder="Ketik Tahun Terbit.." />
+            </div>
+            <div class="input-inline">
+              <input id="inputBookIsComplete" type="checkbox" />
+              <label for="inputBookIsComplete">Selesai dibaca</label>
+            </div>
+            <button class="btn btn-primary" id="bookSubmit" type="submit">
+              Simpan Ke Rak <br />
+              <span>Belum Selesai</span>
+            </button>
+          </form>
+        </section>
+      </section>
+
+      <div class="display-book">
+        <div class="bookself card">
+          <h2>Belum selesai dibaca</h2>
+          <div class="" id="not-finish"></div>
+        </div>
+
+        <div class="bookself card">
+          <h2>Selesai dibaca</h2>
+          <div class="" id="finish-book"></div>
+        </div>
+      </div>
+    </main>
+    <script src="assets/js/script.js"></script>
+  </body>
+</html>
