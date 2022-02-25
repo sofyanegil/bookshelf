@@ -8,11 +8,16 @@ const closeBtn = document.querySelector(".close");
 const isBookComplete = document.querySelector("input#inputBookIsComplete");
 const bookSubmit = document.querySelector("button#bookSubmit span");
 const search = document.getElementById("searchBook");
+const title = document.querySelector(".input-section h2");
+let edit = false;
 
 search.addEventListener("submit", searchBook);
 
 addBtn.addEventListener("click", () => {
+  resetForm();
+  title.innerHTML = "Tambah Buku Baru";
   modal.classList.toggle("hide");
+  edit = false;
 });
 
 closeBtn.addEventListener("click", () => {
@@ -35,15 +40,29 @@ function isStorageExist() {
 document.addEventListener("DOMContentLoaded", () => {
   if (isStorageExist()) {
     readBook();
+  } else {
+    return null;
   }
+
   const bookForm = document.getElementById("inputBook");
+
   bookForm.addEventListener("submit", (e) => {
     modal.classList.toggle("hide");
     e.preventDefault();
-    addBook();
-    document.getElementById("inputBook").reset();
+
+    if (edit == true) {
+      updateBook(e.target.getAttribute("data-id"));
+    } else {
+      addBook();
+    }
+
+    resetForm();
   });
 });
+
+function resetForm() {
+  document.getElementById("inputBook").reset();
+}
 
 function toast(msg, status) {
   let message = document.getElementById("toast");
@@ -51,7 +70,7 @@ function toast(msg, status) {
   message.innerText = msg;
   message.className = "show";
   setTimeout(() => {
-    message.className = message.className.add("show", "");
+    message.className = message.className.replace("show", "");
   }, 3000);
 }
 
@@ -59,7 +78,7 @@ function addBook() {
   const id = +new Date();
   const title = document.getElementById("inputBookTitle").value;
   const author = document.getElementById("inputBookAuthor").value;
-  const year = document.getElementById("inputBookYear").value;
+  const year = parseInt(document.getElementById("inputBookYear").value);
   const isCompleted = document.getElementById("inputBookIsComplete").checked;
   const bookObj = { id, title, author, year, isCompleted };
   books.push(bookObj);
@@ -87,23 +106,38 @@ function deleteBook(bookId) {
   saveData();
 }
 
-function editBook(bookId) {
-  const bookTarget = findBook(bookId);
-  console.log(bookTarget.title);
-
-  const form = document.querySelector(".input-section");
-
-  const title = document.querySelector(".input-section h2");
+function editBook(e) {
+  const bookTarget = findBook(e);
   const editTitle = document.getElementById("inputBookTitle");
   const editAuthor = document.getElementById("inputBookAuthor");
   const editYear = document.getElementById("inputBookYear");
   const editComplete = document.getElementById("inputBookIsComplete");
+  const formInputBook = document.getElementById("inputBook");
 
+  formInputBook.setAttribute("data-id", bookTarget.id);
   title.innerText = "Edit Buku";
   editTitle.value = bookTarget.title;
   editAuthor.value = bookTarget.author;
   editYear.value = bookTarget.year;
   editComplete.checked = bookTarget.isCompleted;
+  edit = true;
+}
+
+function updateBook(e) {
+  const bookTarget = findBookIndex(e);
+  const newTitle = document.getElementById("inputBookTitle").value;
+  const newAuthor = document.getElementById("inputBookAuthor").value;
+  const newYear = document.getElementById("inputBookYear").value;
+  const newComplete = document.getElementById("inputBookIsComplete").checked;
+
+  books[bookTarget].title = newTitle;
+  books[bookTarget].author = newAuthor;
+  books[bookTarget].year = newYear;
+  books[bookTarget].isCompleted = newComplete;
+
+  saveData();
+  toast("Buku berhasil diubah!", "#A0E77D");
+  document.dispatchEvent(new Event(RENDER_EVENT));
 }
 
 function searchBook(e) {
@@ -131,7 +165,7 @@ function findBook(bookId) {
 
 function findBookIndex(bookId) {
   for (index in books) {
-    if (books[index].id === bookId) {
+    if (books[index].id == bookId) {
       return index;
     }
   }
@@ -148,8 +182,8 @@ function saveData() {
 function displayBook(bookObj) {
   const textTitle = document.createElement("h3");
   textTitle.innerText = bookObj.title;
-  const textAuthor = (document.createElement("p").innerText = bookObj.author);
-  textAuthor.innerText = bookObj.author;
+  const textAuthor = document.createElement("h4");
+  textAuthor.innerText = "Penulis : " + bookObj.author;
   const textYear = document.createElement("p");
   textYear.innerText = bookObj.year;
   const textContainer = document.createElement("div");
@@ -158,11 +192,11 @@ function displayBook(bookObj) {
 
   const container = document.createElement("div");
   container.classList.add("item", "card");
-
   const editBtn = document.createElement("button");
   editBtn.classList.add("btn", "btn-third");
   editBtn.innerText = "Ubah";
-  editBtn.addEventListener("click", (e) => {
+  editBtn.setAttribute("id", `${bookObj.id}`);
+  editBtn.addEventListener("click", () => {
     modal.classList.toggle("hide");
     editBook(bookObj.id);
   });
@@ -183,7 +217,7 @@ function displayBook(bookObj) {
     readBtn.innerText = "Belum Selesai Dibaca";
     readBtn.addEventListener("click", () => {
       removeFromCompleted(bookObj.id);
-      toast("Buku Belum selesai dibaca", "#f3f186");
+      toast("Buku Belum selesai dibaca", "#FFB72B");
     });
   } else {
     readBtn.classList.add("btn", "btn-secondary");
