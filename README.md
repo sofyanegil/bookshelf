@@ -2,7 +2,7 @@
 This project is a web-based bookshelf application, where we can manage the list of books we are reading or have finished reading. This project is using HTML, CSS, JavaScript.
 This project is for program Kampus Merdeka on Dicoding Indonesia
 
-#Fiture
+# Fiture
 ## Insert Book
 You can insert book to bookshelf by click tambah buku and fill the modal of form and save by click simpan buku <br>
 <img src="/images/add.jpeg"/> <br>
