@@ -197,6 +197,10 @@ main {
 .toolbar button#addBtn {
   display: flex;
 }
+
+.input-section button {
+  margin: 0 auto;
+}
 .display-book {
   width: 90%;
   margin: 10px auto;
