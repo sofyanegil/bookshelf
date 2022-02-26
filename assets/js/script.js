@@ -260,7 +260,10 @@ function displayBook(bookObj) {
       });
     });
   }
-  container.append(textContainer, readBtn, editBtn, deleteBtn);
+  const containerBtn = document.createElement("div");
+  containerBtn.classList.add("container-btn");
+  containerBtn.append(readBtn, editBtn, deleteBtn);
+  container.append(textContainer, containerBtn);
   container.setAttribute("id", `book-${bookObj.id}`);
   return container;
 }
