@@ -193,7 +193,7 @@ function displayBook(bookObj) {
   container.classList.add("item", "card");
   const editBtn = document.createElement("button");
   editBtn.classList.add("btn", "btn-third");
-  editBtn.innerText = "Ubah";
+  editBtn.innerHTML = '<i class="large material-icons">edit</i>';
   editBtn.setAttribute("id", `${bookObj.id}`);
   editBtn.addEventListener("click", () => {
     modal.classList.toggle("hide");
@@ -202,7 +202,7 @@ function displayBook(bookObj) {
 
   const deleteBtn = document.createElement("button");
   deleteBtn.classList.add("btn", "btn-danger");
-  deleteBtn.innerText = "Hapus";
+  deleteBtn.innerHTML = '<i class="large material-icons">delete</i>';
   deleteBtn.addEventListener("click", () => {
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {
@@ -235,7 +235,7 @@ function displayBook(bookObj) {
   const readBtn = document.createElement("button");
   if (bookObj.isCompleted) {
     readBtn.classList.add("btn", "btn-secondary");
-    readBtn.innerText = "Belum Selesai Dibaca";
+    readBtn.innerHTML = '<i class="large material-icons">replay</i>';
     readBtn.addEventListener("click", () => {
       removeFromCompleted(bookObj.id);
       Swal.fire({
@@ -248,7 +248,7 @@ function displayBook(bookObj) {
     });
   } else {
     readBtn.classList.add("btn", "btn-secondary");
-    readBtn.innerText = "Selesai Dibaca";
+    readBtn.innerHTML = '<i class="large material-icons">done</i>';
     readBtn.addEventListener("click", () => {
       moveToCompleted(bookObj.id);
       Swal.fire({

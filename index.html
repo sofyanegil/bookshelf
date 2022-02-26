@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="assets/style/style.css" />
     <link rel="shortcut icon" href="assets/img/logo.png" type="image/x-icon" />
     <link rel="stylesheet" href="node_modules/sweetalert2/dist/sweetalert2.css" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
   </head>
   <body>
     <header>
@@ -20,12 +21,11 @@
         <div class="search">
           <form id="searchBook">
             <input type="text" placeholder="Search Book.." autocomplete="off" id="searchBookField" />
-            <button class="btn btn-primary" id="searchBtn" type="submit">Cari</button>
+            <button class="btn btn-primary" id="searchBtn" type="submit"><i class="large material-icons">search</i></button>
           </form>
         </div>
-        <button class="btn btn-primary" type="button " id="addBtn">&plus; Tambah Buku</button>
+        <button class="btn btn-primary" type="button " id="addBtn"><i class="large material-icons">add_circle</i> Buku Baru</button>
       </section>
-
       <section class="modal hide">
         <section class="input-section card">
           <span class="close">&times;</span>
@@ -48,7 +48,7 @@
               <label for="inputBookIsComplete">Selesai dibaca</label>
             </div>
             <button class="btn btn-primary" id="bookSubmit" type="submit">
-              Simpan Ke Rak <br />
+              <i class="large material-icons">save</i>
               <span>Belum Selesai</span>
             </button>
           </form>

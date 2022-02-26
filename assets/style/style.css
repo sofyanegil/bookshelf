@@ -17,6 +17,9 @@
   font-weight: bold;
   font-size: medium;
   margin: 0 5px;
+  align-items: center;
+  align-self: center;
+  justify-content: center;
 }
 
 .btn-primary {
