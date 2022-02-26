@@ -1,7 +1,6 @@
 const books = [];
 const RENDER_EVENT = "render-book";
 const STORAGE_KEY = "BOOKS_APPS";
-
 const addBtn = document.querySelector("button#addBtn");
 const modal = document.querySelector(".modal");
 const closeBtn = document.querySelector(".close");
@@ -52,8 +51,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (edit == true) {
       updateBook(e.target.getAttribute("data-id"));
+      Swal.fire({
+        icon: "success",
+        title: "Buku Berhasil diubah",
+        showConfirmButton: false,
+        timer: 2000,
+      });
     } else {
       addBook();
+      Swal.fire({
+        icon: "success",
+        title: "Buku Berhasil ditambahkan",
+        showConfirmButton: false,
+        timer: 2000,
+      });
     }
 
     resetForm();
@@ -62,16 +73,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function resetForm() {
   document.getElementById("inputBook").reset();
-}
-
-function toast(msg, status) {
-  let message = document.getElementById("toast");
-  message.style.backgroundColor = status;
-  message.innerText = msg;
-  message.className = "show";
-  setTimeout(() => {
-    message.className = message.className.replace("show", "");
-  }, 3000);
 }
 
 function addBook() {
@@ -83,7 +84,6 @@ function addBook() {
   const bookObj = { id, title, author, year, isCompleted };
   books.push(bookObj);
   document.dispatchEvent(new Event(RENDER_EVENT));
-  toast("Buku berhasil ditambahkan!", "#A0E77D");
   saveData();
 }
 
@@ -136,7 +136,6 @@ function updateBook(e) {
   books[bookTarget].isCompleted = newComplete;
 
   saveData();
-  toast("Buku berhasil diubah!", "#A0E77D");
   document.dispatchEvent(new Event(RENDER_EVENT));
 }
 
@@ -205,10 +204,32 @@ function displayBook(bookObj) {
   deleteBtn.classList.add("btn", "btn-danger");
   deleteBtn.innerText = "Hapus";
   deleteBtn.addEventListener("click", () => {
-    if (confirm("Yakin ingin menghapus Buku?")) {
-      deleteBook(bookObj.id);
-      toast("Buku dihapus", "#EF8677");
-    }
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: "btn btn-primary",
+        cancelButton: "btn btn-danger",
+      },
+      buttonsStyling: false,
+    });
+
+    swalWithBootstrapButtons
+      .fire({
+        title: "Yakin, Hapus?",
+        text: "Buku yang dihapus tidak bisa dikembalikan",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Hapus!",
+        cancelButtonText: "Batal",
+        reverseButtons: true,
+      })
+      .then((result) => {
+        if (result.isConfirmed) {
+          swalWithBootstrapButtons.fire("Terhapus!", "Buku Anda dihapus dari rak", "success");
+          deleteBook(bookObj.id);
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+          swalWithBootstrapButtons.fire("Batal Hapus", "Buku Anda masih ada didalam rak", "error");
+        }
+      });
   });
 
   const readBtn = document.createElement("button");
@@ -217,14 +238,26 @@ function displayBook(bookObj) {
     readBtn.innerText = "Belum Selesai Dibaca";
     readBtn.addEventListener("click", () => {
       removeFromCompleted(bookObj.id);
-      toast("Buku Belum selesai dibaca", "#FFB72B");
+      Swal.fire({
+        icon: "success",
+        title: "Dipindahkan",
+        text: "Buku dipindahkan ke rak belum selesai dibaca",
+        showConfirmButton: false,
+        timer: 2000,
+      });
     });
   } else {
     readBtn.classList.add("btn", "btn-secondary");
     readBtn.innerText = "Selesai Dibaca";
     readBtn.addEventListener("click", () => {
       moveToCompleted(bookObj.id);
-      toast("Buku selesai dibaca", "#82B6D9");
+      Swal.fire({
+        icon: "success",
+        title: "Dipindahkan",
+        text: "Buku dipindahkan ke rak selesai dibaca",
+        showConfirmButton: false,
+        timer: 2000,
+      });
     });
   }
   container.append(textContainer, readBtn, editBtn, deleteBtn);
