@@ -242,6 +242,30 @@ main {
   min-height: 100px;
 }
 
+footer {
+  width: 100%;
+  padding: 20px;
+  color: var(--pal4);
+  background-color: var(--pal1);
+  font-size: 1em;
+  font-weight: bold;
+  text-align: center;
+}
+
+footer p {
+  line-height: 20px;
+}
+footer a {
+  text-decoration: none;
+  color: var(--pal4);
+}
+
+.sosmed {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
 /* Mobile */
 @media only screen and (max-width: 768px) {
   .head-title {
